@@ -64,3 +64,23 @@ class Data:
         combined_list.extend(dataA.data)
         combined_list.extend(dataB.data)
         return Data(combined_list, 'list')
+
+    def transformando_dados_tabela(self):
+        dados_combinados_tabela = [self.column_names]
+
+        for row in self.data:
+            linha = []
+            for coluna in self.column_names:
+                linha.append(row.get(coluna, 'Indisponível'))
+            dados_combinados_tabela.append(linha)
+        return dados_combinados_tabela
+    
+    def save_data(self, path):
+
+        combined_data_table = self.transformando_dados_tabela()
+
+        with open(path, 'w') as file:
+            writer = csv.writer(file)
+            writer.writerows(combined_data_table)
+
+

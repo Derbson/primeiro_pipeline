@@ -40,6 +40,16 @@ from processamento_dados import Data
 #     combined_list.extend(dataB)
 #     return combined_list
 
+# def transformando_dados_tabela(joined_data, column_names):
+#     dados_combinados_tabela = [column_names]
+
+#     for row in joined_data:
+#         linha = []
+#         for coluna in column_names:
+#             linha.append(row.get(coluna, 'Indisponível'))
+#         dados_combinados_tabela.append(linha)
+#     return dados_combinados_tabela
+
 # def size_data(data):
 #     return len(data)
 
@@ -65,7 +75,7 @@ dados_empresaB = Data(path_csv, 'csv')
 # print(f"quantidade de linhas empresaB {size_data_csv}")
 
 
-# # ------ mepear as chaves ------
+# # ----------- mepear as chaves -----------
 # header_json = get_header(data_json)
 # header_csv = get_header(data_csv)
 
@@ -81,16 +91,19 @@ key_mapping = {
 dados_empresaB.rename_columns(key_mapping)
 print(dados_empresaB.column_names)
 
-joined_data = Data.join_data(dados_empresaA, dados_empresaB)
-print(joined_data)
 
 # data_csv = rename_columns(data_csv, key_mapping)
 # column_names_csv = get_header(data_csv)
 
-# # unido os dados 
+# # -------------------- unido os dados -----------------------
 # joined_data = join_data(data_json,data_csv)
 # size_joined_data = size_data(joined_data)
+joined_data = Data.join_data(dados_empresaA, dados_empresaB)
 
 # print(f"quantidade de linhas dos arquivos juntos: {size_joined_data}")
+print(joined_data.data[-1])
 
-# print(joined_data[-1])
+# -------------  salvando os dados organizados em um arquivo .csv
+path_joined_data = '../data_processed/dados_combinandos.csv'
+joined_data.save_data(path_joined_data)
+
