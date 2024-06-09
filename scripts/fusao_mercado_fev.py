@@ -32,7 +32,15 @@ def rename_columns(data,key_mapping):
         new_data_csv.append(dict_temp)
 
     return new_data_csv
-  
+
+def join_data(dataA, dataB):
+    combined_list = []
+    combined_list.extend(dataA)
+    combined_list.extend(dataB)
+    return combined_list
+
+def size_data(data):
+    return len(data)
 
 path_json = '../data_raw/dados_empresaA.json'
 path_csv = '../data_raw/dados_empresaB.csv'
@@ -41,6 +49,14 @@ path_csv = '../data_raw/dados_empresaB.csv'
 # lendo os 2 arquivos e retornando como lista de dicionários
 data_json = reader_json(path_json)
 data_csv = reader_csv(path_csv)
+
+# tamanho dos arquivos
+size_data_json = size_data(data_json)
+size_data_csv = size_data(data_csv)
+
+print(f"quantidade de linhas empresaA {size_data_json}")
+print(f"quantidade de linhas empresaB {size_data_csv}")
+
 
 # mepear as chaves
 header_json = get_header(data_json)
@@ -56,4 +72,12 @@ key_mapping = {
 }
 
 data_csv = rename_columns(data_csv, key_mapping)
-print(data_csv[0])
+column_names_csv = get_header(data_csv)
+
+# unido os dados 
+joined_data = join_data(data_json,data_csv)
+size_joined_data = size_data(joined_data)
+
+print(f"quantidade de linhas dos arquivos juntos: {size_joined_data}")
+
+print(joined_data[-1])
