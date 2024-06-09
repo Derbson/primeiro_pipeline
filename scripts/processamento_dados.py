@@ -37,9 +37,7 @@ class Data:
         elif self.data_type == 'list':
             data = self.path
             self.path = 'lista em memoria'
-
         return data
-
 
     def get_header(self):
         return  list(self.data[0].keys())
