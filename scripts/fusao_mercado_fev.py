@@ -19,37 +19,39 @@ from processamento_dados import Data
 
 #     return data_csv
 
-def get_header(data):
-    header = list(data[0].keys())
-    return header
+# def get_header(data):
+    # header = list(data[0].keys())
+    # return header
 
-def rename_columns(data,key_mapping):
-    new_data_csv = []
+# def rename_columns(data,key_mapping):
+    # new_data_csv = []
 
-    for old_dict in data:
-        dict_temp = {}
-        for old_key, value in old_dict.items():
-            dict_temp[key_mapping[old_key]] = value
-        new_data_csv.append(dict_temp)
+    # for old_dict in data:
+    #     dict_temp = {}
+    #     for old_key, value in old_dict.items():
+    #         dict_temp[key_mapping[old_key]] = value
+    #     new_data_csv.append(dict_temp)
 
-    return new_data_csv
+    # return new_data_csv
 
-def join_data(dataA, dataB):
-    combined_list = []
-    combined_list.extend(dataA)
-    combined_list.extend(dataB)
-    return combined_list
+# def join_data(dataA, dataB):
+#     combined_list = []
+#     combined_list.extend(dataA)
+#     combined_list.extend(dataB)
+#     return combined_list
 
-def size_data(data):
-    return len(data)
+# def size_data(data):
+#     return len(data)
 
 path_json = '../data_raw/dados_empresaA.json'
 path_csv = '../data_raw/dados_empresaB.csv'
 
 dados_empresaA = Data(path_json, 'json')
 dados_empresaB = Data(path_csv, 'csv')
-print(dados_empresaA.data[0])
-print(dados_empresaB.data[0])
+# print(dados_empresaA.column_names)
+# print(dados_empresaB.data[0])
+
+
 
 # lendo os 2 arquivos e retornando como lista de dicionários
 # data_json = reader_json(path_json)
@@ -63,18 +65,24 @@ print(dados_empresaB.data[0])
 # print(f"quantidade de linhas empresaB {size_data_csv}")
 
 
-# # mepear as chaves
+# # ------ mepear as chaves ------
 # header_json = get_header(data_json)
 # header_csv = get_header(data_csv)
 
-# key_mapping = {
-#     'Nome do Item': 'Nome do Produto',
-#     'Classificação do Produto' :'Categoria do Produto',
-#     'Valor em Reais (R$)':'Preço do Produto (R$)',
-#     'Quantidade em Estoque':'Quantidade em Estoque',
-#     'Nome da Loja':'Filial',
-#     'Data da Venda':'Data da Venda'
-# }
+key_mapping = {
+    'Nome do Item': 'Nome do Produto',
+    'Classificação do Produto' :'Categoria do Produto',
+    'Valor em Reais (R$)':'Preço do Produto (R$)',
+    'Quantidade em Estoque':'Quantidade em Estoque',
+    'Nome da Loja':'Filial',
+    'Data da Venda':'Data da Venda'
+}
+
+dados_empresaB.rename_columns(key_mapping)
+print(dados_empresaB.column_names)
+
+joined_data = Data.join_data(dados_empresaA, dados_empresaB)
+print(joined_data)
 
 # data_csv = rename_columns(data_csv, key_mapping)
 # column_names_csv = get_header(data_csv)

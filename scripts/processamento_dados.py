@@ -6,6 +6,8 @@ class Data:
         self.path = path
         self.data_type = data_type
         self.data = self.data_reader()
+        self.column_names = self.get_header()
+        self.qtd_linhas = self.size_data()
 
     def reader_json(self):
         data_json = []
@@ -31,9 +33,34 @@ class Data:
         
         elif self.data_type == 'json':
             data = self.reader_json()
+        
+        elif self.data_type == 'list':
+            data = self.path
+            self.path = 'lista em memoria'
 
         return data
 
 
+    def get_header(self):
+        return  list(self.data[0].keys())
+    
+    def rename_columns(self,key_mapping):
+        new_data_csv = []
 
+        for old_dict in self.data:
+            dict_temp = {}
+            for old_key, value in old_dict.items():
+                dict_temp[key_mapping[old_key]] = value
+            new_data_csv.append(dict_temp)
 
+        self.data = new_data_csv
+        self.column_names = self.get_header()
+    
+    def size_data(self):
+        return len(self.data)
+    
+    def join_data(dataA, dataB):
+        combined_list = []
+        combined_list.extend(dataA.data)
+        combined_list.extend(dataB.data)
+        return Data(combined_list, 'list')
